@@ -40,8 +40,8 @@ else
   exit 1
 fi
 
-if [ "$MC_EULA" != true ]; then
-    echo "Press Y or set MC_EULA=true to agree with Mojangs EULA: https://account.mojang.com/documents/minecraft_eula"
+if [ -z "$MC_EULA" ]; then
+    echo "Press Y or set MC_EULA to agree with Mojangs EULA: https://account.mojang.com/documents/minecraft_eula"
     read -p "" -n 1 -r
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         exit 1;
