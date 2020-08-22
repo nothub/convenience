@@ -40,23 +40,29 @@ else
   exit 1
 fi
 
-{
-  echo "eula=true"
-} >../server/eula.txt
+if [ "$MC_EULA" != true ]; then
+    echo "Press Y or set MC_EULA=true to agree with Mojangs EULA: https://account.mojang.com/documents/minecraft_eula"
+    read -p "" -n 1 -r
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        exit 1;
+    fi
+fi
 
-mkdir -p ../server/plugins/bStats
+echo "eula=true" > ./eula.txt
+
+mkdir -p ./plugins/bStats
 
 {
   echo "motd=some test server"
   echo "online-mode=false"
   echo "spawn-protection=0"
   echo "enable-command-block=true"
-} >../server/server.properties
+} > ./server.properties
 
 {
   echo "enabled: false"
   echo "serverUuid: 00000000-0000-0000-0000-000000000000"
   echo "logFailedRequests: false"
-} >../server/plugins/bStats/config.yml
+} > ./plugins/bStats/config.yml
 
 echo "server installation complete"
