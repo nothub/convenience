@@ -15,13 +15,13 @@ elif [ "$1" = "1.14.4" ] || [ "$1" = "1.14" ] || [ "$1" = "14" ]; then
   PAPER_URL=https://papermc.io/api/v1/paper/1.14.4/243/download
   PAPER_MD5=8be71db025e6a14c86b4f096e543d6e8
 elif [ "$1" = "1.15.2" ] || [ "$1" = "1.15" ] || [ "$1" = "15" ]; then
-  echo "installing paper 1.15.2 (387)"
-  PAPER_URL=https://papermc.io/api/v1/paper/1.15.2/387/download
-  PAPER_MD5=b4aa13b866312a0ca6adbe6c1c59bbc5
+  echo "installing paper 1.15.2 (391)"
+  PAPER_URL=https://papermc.io/api/v1/paper/1.15.2/391/download
+  PAPER_MD5=3d7aa76694cad3140da1ba136a350264
 elif [ "$1" = "1.16.3" ] || [ "$1" = "1.16" ] || [ "$1" = "16" ]; then
-  echo "installing paper 1.16.3 (196)"
-  PAPER_URL=https://papermc.io/api/v1/paper/1.16.3/196/download
-  PAPER_MD5=997359fb4c48988eb499b30aa7fcde15
+  echo "installing paper 1.16.3 (253)"
+  PAPER_URL=https://papermc.io/api/v1/paper/1.16.4/320/download
+  PAPER_MD5=bc6deb55dc66fa137e75cb3b8051ff1f
 else
   echo "unknown paper version!"
   exit 1
