@@ -9,7 +9,7 @@ fi
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-if [ ! -d ../server/plugins ]; then
+if [ ! -f ../server/paper.jar ]; then
   bash ./install-server.sh
 fi
 
