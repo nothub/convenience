@@ -9,9 +9,7 @@ fi
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-if [ ! -f ../server/paper.jar ]; then
-  bash ./install-server.sh
-fi
+bash ./install-server.sh
 
 rm -f ../server/plugins/"$1"-*.jar
 cp ../target/"$1"-*.jar ../server/plugins
