@@ -2,7 +2,7 @@
 
 set -e
 
-SERVER_URL="https://dl.airplane.gg/latest/Airplane-JDK11/launcher-airplane.jar"
+SERVER_URL="https://ci.tivy.ca/job/Airplane-1.16/lastSuccessfulBuild/artifact/launcher-airplane.jar"
 SERVER_FILE="airplane.jar"
 
 if [ -f ../server/$SERVER_FILE ]; then
