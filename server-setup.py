@@ -13,13 +13,13 @@ PAPER_API_BASE = 'https://papermc.io/api/v2/projects/paper'
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-sf', '--server-fork',
+        '-f', '--fork',
         action='store',
         type=server_fork,
         required=False,
         default=Fork.PAPER,
         metavar='NAME',
-        help='server fork',
+        help='server fork (paper, tuinity, airplane)',
     )
     parser.add_argument(
         '-mc', '--mc-version',
@@ -31,7 +31,15 @@ def parse_args() -> argparse.Namespace:
         help='mc version (paper only)',
     )
     parser.add_argument(
-        '-sd', '--server-dir',
+        '-p', '--port',
+        action='store',
+        type=network_port,
+        required=False,
+        default=25565,
+        help='server port',
+    )
+    parser.add_argument(
+        '-d', '--dir',
         action='store',
         type=dir_path,
         required=False,
@@ -40,21 +48,13 @@ def parse_args() -> argparse.Namespace:
         help='server dir path',
     )
     parser.add_argument(
-        '-ln', '--link-name',
+        '-ln', '--link',
         action='store',
         type=file_path,
         required=False,
         default='server.jar',
         metavar='NAME',
         help='server link name',
-    )
-    parser.add_argument(
-        '-p', '--port',
-        action='store',
-        type=network_port,
-        required=False,
-        default=25565,
-        help='server port',
     )
     parser.add_argument(
         '-cp', '--copy-plugins',
@@ -86,6 +86,22 @@ def main():
     print('linking ' + str(server_file) + ' to ' + str(link))
     os.symlink(server_file.absolute(), link)
 
+    # server properties
+    server_properties: Path = args.server_dir.joinpath('server.properties')
+    if not server_properties.exists():
+        with open(server_properties, 'wb') as file:
+            file.write(bytes('motd=' + args.mc_version + ' test server' + '\n', encoding='utf8'))
+            file.write(bytes('server-port=' + str(args.port) + '\n', encoding='utf8'))
+            file.write(bytes('spawn-protection=0' + '\n', encoding='utf8'))
+
+    # add plugins
+    plugin_dir: Path = args.server_dir.joinpath('plugins')
+    if not plugin_dir.exists():
+        plugin_dir.mkdir()
+    for plugin in args.copy_plugins:
+        print('adding plugin: ' + str(plugin))
+        shutil.copyfile(plugin, plugin_dir.joinpath(plugin.name))
+
     # eula
     eula_file: Path = args.server_dir.joinpath('eula.txt')
     eula_accepted = True if os.getenv('MC_EULA') is not None else False
@@ -105,22 +121,6 @@ def main():
     if eula_accepted:
         with open(eula_file, 'wb') as file1:
             file1.write(bytes('eula=true', encoding='utf8'))
-
-    # server properties
-    server_properties: Path = args.server_dir.joinpath('server.properties')
-    if not server_properties.exists():
-        with open(server_properties, 'wb') as file:
-            file.write(bytes('motd=' + args.mc_version + ' test server' + '\n', encoding='utf8'))
-            file.write(bytes('server-port=' + str(args.port) + '\n', encoding='utf8'))
-            file.write(bytes('spawn-protection=0' + '\n', encoding='utf8'))
-
-    # add plugins
-    plugin_dir: Path = args.server_dir.joinpath('plugins')
-    if not plugin_dir.exists():
-        plugin_dir.mkdir()
-    for plugin in args.copy_plugins:
-        print('adding plugin: ' + str(plugin))
-        shutil.copyfile(plugin, plugin_dir.joinpath(plugin.name))
 
 
 def download(build_url, server_file, replace: bool = False):
