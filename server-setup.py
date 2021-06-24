@@ -102,6 +102,15 @@ def main():
         print('adding plugin: ' + str(plugin))
         shutil.copyfile(plugin, plugin_dir.joinpath(plugin.name))
 
+    # disable metrics
+    bstats_dir: Path = args.server_dir.joinpath('plugins').joinpath('bStats')
+    if not bstats_dir.exists():
+        bstats_dir.mkdir()
+    bstats_config: Path = bstats_dir.joinpath('config.yml')
+    if not bstats_config.exists():
+        with open(bstats_config, 'wb') as file:
+            file.write(bytes('enabled: false', encoding='utf8'))
+
     # eula
     eula_file: Path = args.server_dir.joinpath('eula.txt')
     eula_accepted = True if os.getenv('MC_EULA') is not None else False
