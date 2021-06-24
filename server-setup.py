@@ -39,7 +39,7 @@ def parse_args() -> argparse.Namespace:
         help='server port',
     )
     parser.add_argument(
-        '-d', '--dir',
+        '-d', '--server-dir',
         action='store',
         type=dir_path,
         required=False,
@@ -48,7 +48,7 @@ def parse_args() -> argparse.Namespace:
         help='server dir path',
     )
     parser.add_argument(
-        '-ln', '--link',
+        '-ln', '--link-name',
         action='store',
         type=file_path,
         required=False,
@@ -77,7 +77,7 @@ def main():
     # download
     if not args.server_dir.exists():
         args.server_dir.mkdir()
-    server_file = args.server_fork(args)
+    server_file = args.fork(args)
 
     # symlink
     link = args.server_dir.joinpath(args.link_name)
