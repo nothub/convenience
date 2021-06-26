@@ -65,7 +65,7 @@ def parse_args() -> argparse.Namespace:
         required=False,
         default=list(),
         metavar='PATH',
-        help='copy to plugin dir',
+        help='copy to plugin dir (* is wildcard)',
     )
     return parser.parse_args()
 
