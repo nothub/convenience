@@ -1,4 +1,6 @@
-example configuration snippet to run a test server with mavens verify lifecycle:
+example configuration adding profile **run-test-server**. run maven lifecycle **verify** with profile **run-test-server** to start a local test server.
+
+![idea maven integration](https://i.imgur.com/KHzaxWX.png)
 
 ```xml
 <!-- ... -->
@@ -117,9 +119,3 @@ example configuration snippet to run a test server with mavens verify lifecycle:
 </profiles>
         <!-- ... -->
 ```
-
----
-
-(automatic) profile integration in idea:
-
-![idea maven integration](https://i.imgur.com/Fg7EE6l.png)
