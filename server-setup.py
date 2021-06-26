@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import enum
+import glob
 import os
 import shutil
 from pathlib import Path
@@ -59,7 +60,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         '-cp', '--copy-plugins',
         action='extend',
-        type=file_path,
+        type=file_glob_path,
         nargs='+',
         required=False,
         default=list(),
@@ -217,6 +218,14 @@ def file_path(s: str) -> Path:
     if path.exists() and not path.is_file():
         raise argparse.ArgumentTypeError("not a valid file path")
     return path
+
+
+def file_glob_path(s: str) -> Path:
+    """argparse input validation"""
+    results = glob.glob(non_empty_string(s))
+    if not len(results) or len(results) > 1:
+        raise argparse.ArgumentTypeError("not a valid file glob path")
+    return file_path(results[0])
 
 
 def network_port(n: str) -> int:
