@@ -4,9 +4,14 @@ import enum
 import glob
 import os
 import shutil
+import sys
 from pathlib import Path
 
 import requests
+
+if sys.version_info.major < 3 or sys.version_info.minor < 6:
+    print('please run with python 3.6+')
+    exit(1)
 
 PAPER_API_BASE = 'https://papermc.io/api/v2/projects/paper'
 
