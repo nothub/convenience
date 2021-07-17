@@ -228,7 +228,7 @@ def file_path(s: str) -> Path:
 def file_glob_path(s: str) -> Path:
     """argparse input validation"""
     results = glob.glob(non_empty_string(s))
-    if not len(results) or len(results) > 1:
+    if not len(results) or len(results) < 1:
         raise argparse.ArgumentTypeError("not a valid file glob path")
     return file_path(results[0])
 
