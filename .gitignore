@@ -1,0 +1,10 @@
+*
+!*/
+
+!/.editorconfig
+!/.gitignore
+
+!/paperdl.sh
+
+!/*.md
+!/LICENSE
