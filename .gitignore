@@ -4,7 +4,9 @@
 !/.editorconfig
 !/.gitignore
 
-!/paperdl.sh
+!/convenience.sh
 
-!/*.md
+!/README.md
+!/MAVEN.md
+!/scrot.png
 !/LICENSE

@@ -1,13 +1,13 @@
 example configuration adding profile **run-test-server**. run maven lifecycle **verify** with profile **run-test-server** to start a local test server.
 
-![idea maven integration](https://i.imgur.com/KHzaxWX.png)
+![idea maven integration](scrot.png)
 
 ```xml
 <!-- ... -->
 <properties>
-    <minecraft.version>1.16.5</minecraft.version>
+    <minecraft.version>1.19.1</minecraft.version>
 </properties>
-        <!-- ... -->
+<!-- ... -->
 <profiles>
 <profile>
     <id>run-test-server</id>
@@ -32,44 +32,11 @@ example configuration adding profile **run-test-server**. run maven lifecycle **
                     </filesets>
                 </configuration>
             </plugin>
-            <!-- dont actually do this, use a git submodule instead
-            <plugin>
-                <groupId>com.googlecode.maven-download-plugin</groupId>
-                <artifactId>download-maven-plugin</artifactId>
-                <version>1.3.0</version>
-                <executions>
-                    <execution>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>wget</goal>
-                        </goals>
-                        <configuration>
-                            <url>https://raw.githubusercontent.com/nothub/convenience/master/server-setup.py</url>
-                            <outputFileName>server-setup.py</outputFileName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-             -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <executions>
-                    <execution>
-                        <id>chmod</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>chmod</executable>
-                            <arguments>
-                                <argument>+x</argument>
-                                <argument>${project.build.directory}/server-setup.py</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
                     <execution>
                         <id>mc-server-setup</id>
                         <phase>pre-integration-test</phase>
@@ -77,15 +44,14 @@ example configuration adding profile **run-test-server**. run maven lifecycle **
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>${project.build.directory}/server-setup.py</executable>
+                            <executable>${project.basedir}/convenience.sh</executable>
                             <arguments>
-                                <argument>--mc-version</argument>
+                                <argument>-i</argument>
+                                <argument>target/${project.artifactId}-${project.version}.jar</argument>
                                 <argument>${minecraft.version}</argument>
-                                <argument>--copy-plugins</argument>
-                                <argument>target/${project.artifactId}-*.jar</argument>
                             </arguments>
                             <environmentVariables>
-                                <!-- Set MC_EULA to agree with Mojangs EULA: https://account.mojang.com/documents/minecraft_eula
+                                <!-- Set MC_EULA=true to agree with Mojangs EULA: https://account.mojang.com/documents/minecraft_eula
                                 <MC_EULA>true</MC_EULA> -->
                             </environmentVariables>
                         </configuration>
@@ -117,5 +83,5 @@ example configuration adding profile **run-test-server**. run maven lifecycle **
     </build>
 </profile>
 </profiles>
-        <!-- ... -->
+<!-- ... -->
 ```
